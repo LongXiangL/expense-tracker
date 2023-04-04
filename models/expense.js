@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const todoSchema = new Schema({
+const expenseSchema = new Schema({
   id: { type: Number, required: true },
   name: { type: String, required: true },
   date: { type: Date, required: true },
@@ -18,4 +18,4 @@ const todoSchema = new Schema({
     required: true
   },
 })
-module.exports = mongoose.model('Expense', todoSchema)
+module.exports = mongoose.model('Expense', expenseSchema)
