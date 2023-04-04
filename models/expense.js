@@ -1,12 +1,21 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const todoSchema = new Schema({
-  name: {
-    type: String, // 資料型別是字串
-    required: true // 這是個必填欄位
+  id: { type: Number, required: true },
+  name: { type: String, required: true },
+  date: { type: Date, required: true },
+  amount: { type: Number, required: true },
+  userId: {  // 加入關聯設定
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    index: true,
+    required: true
   },
-  done: {
-    type: Boolean
-  }
+  categoryId: {  // 加入關聯設定
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    index: true,
+    required: true
+  },
 })
 module.exports = mongoose.model('Expense', todoSchema)
