@@ -1,11 +1,16 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const exphbs = require('express-handlebars');
+
 
 const app = express()
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }) // 設定連線到 mongoDB)
+
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
 
 // 取得資料庫連線狀態
 const db = mongoose.connection
@@ -20,7 +25,7 @@ db.once('open', () => {
 
 
 app.get('/',(req,res)=>{
-  res.send('hello world!')
+  res.render('index')
 })
 
 app.listen(3000,()=>{
