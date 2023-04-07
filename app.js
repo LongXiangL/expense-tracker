@@ -3,16 +3,18 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars');
 const Record=require('./models/record')
 const bodyParser = require('body-parser')
-// 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
+const methodOverride = require('method-override')
 const app = express()
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }) // 設定連線到 mongoDB)
 
+
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 // 取得資料庫連線狀態
 const db = mongoose.connection
@@ -65,7 +67,7 @@ app.get('/records/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/records/:id/edit', (req, res) => {
+app.put('/records/:id', (req, res) => {
   const id = req.params.id
   const recordData = {
     name: req.body.name,
@@ -82,7 +84,7 @@ app.post('/records/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/records/:id/delete', (req, res) => {
+app.delete('/records/:id', (req, res) => {
   const id = req.params.id
   return Record.findById(id)
     .then(todo => todo.remove())

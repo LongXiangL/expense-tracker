@@ -1,7 +1,7 @@
 <p class="mb-3"><span class="text-danger">*</span>必填欄位</p>
 <h4>請輸入你的支出</h4>
 <div class="container">
-  <form action="/records/{{record._id}}/edit" method="POST">
+  <form action="/records/{{record._id}}?_method=PUT" method="POST">
     <div class="mb-3">
       <label for="name" class="form-label">名稱<span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="name" placeholder="" name="name" required value="{{record.name}}" />
