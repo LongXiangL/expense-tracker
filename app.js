@@ -29,6 +29,7 @@ db.once('open', () => {
 app.get('/', (req, res) => {
   Record.find() 
     .lean()
+    .sort({ date: 'desc' })
     .then(records => {
       records = records.map(record => ({
         ...record,
