@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars');
-
+const Record=require('./models/record')
 
 const app = express()
 if (process.env.NODE_ENV !== 'production') {
@@ -24,8 +24,11 @@ db.once('open', () => {
 })
 
 
-app.get('/',(req,res)=>{
-  res.render('index')
+app.get('/', (req, res) => {
+  Record.find() // 取出 model 裡的所有資料
+    .lean() // 把 Mongoose 的 Model 物件轉換成乾淨的 JavaScript 資料陣列
+    .then(records => res.render('index', { records })) // 將資料傳給 index 樣板
+    .catch(error => console.error(error)) // 錯誤處理
 })
 
 app.listen(3000,()=>{

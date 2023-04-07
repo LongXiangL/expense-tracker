@@ -28,7 +28,7 @@ const SEED_RECORDS = [{
   id: 1,
   name: '午餐',
   date: '2019.4.23',
-  amount: 220,
+  amount: 120,
   userId:1,
   categoryId:4,
 },
