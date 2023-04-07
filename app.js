@@ -64,8 +64,6 @@ app.get('/records/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-
-
 app.post('/records/:id/edit', (req, res) => {
   const id = req.params.id
   const recordData = {
@@ -80,6 +78,14 @@ app.post('/records/:id/edit', (req, res) => {
       return record.save()
     })
     .then(() => res.redirect(`/`))
+    .catch(error => console.log(error))
+})
+
+app.post('/records/:id/delete', (req, res) => {
+  const id = req.params.id
+  return Record.findById(id)
+    .then(todo => todo.remove())
+    .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
 

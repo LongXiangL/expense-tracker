@@ -12,7 +12,7 @@
     </div>
     <div class="mb-3">
       <label for="category" class="form-label">類別<span class="text-danger">*</span></label>
-      <input type="text" class="form-control" id="category" placeholder="餐飲食品" list="categoryOptions" name="category"
+      <input type="text" class="form-control" id="category" list="categoryOptions" name="category"
         required value="{{record.category}}" />
       {{! 使用datalist，讓使用者可選擇或自行輸入 }}
       <datalist id="categoryOptions">
