@@ -1,0 +1,41 @@
+<span class="text-danger">*</span><span>必填欄位</span>
+<span >請輸入你的支出</span>
+<div class="container">
+  <form action="/records" method="POST">
+    <div class="mb-3">
+      <label for="name" class="form-label">名稱<span class="text-danger">*</span>：</label>
+      <input type="text" class="form-control" id="name" placeholder="" name="name" required />
+    </div>
+    <div class="mb-3">
+      <label for="date" class="form-label">日期<span class="text-danger">*</span>：</label>
+      <input type="date" class="form-control" id="date" name="date" required />
+    </div>
+    <script>
+      const today = new Date().toISOString().substr(0, 10); // 取得今天日期並格式化為 yyyy-mm-dd 的字串
+      document.getElementById("date").defaultValue = today;// 設置預設日期值為今天
+    </script>
+    <div class="mb-3">
+      <label for="category" class="form-label">類別<span class="text-danger">*</span：></label>
+      <input type="text" class="form-control" id="category" placeholder="餐飲食品" list="categoryOptions" name="category"
+        required />
+      {{! 使用datalist，讓使用者可選擇或自行輸入 }}
+      <datalist id="categoryOptions">
+        <option>家居物業</option>
+        <option>交通出行</option>
+        <option>休閒娛樂</option>
+        <option>餐飲食品</option>
+        <option>其他</option>
+      </datalist>
+    </div>
+    <div class="mb-3">
+      <label for="amount" class="form-label">金額<span class="text-danger">*</span>:</label>
+      <input type="number" class="form-control" id="amount"  name="amount" required />
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">
+        新增支出
+      </button>
+
+    </div>
+  </form>
+</div>

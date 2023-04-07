@@ -2,7 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars');
 const Record=require('./models/record')
-
+const bodyParser = require('body-parser')
+// 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
 const app = express()
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -11,6 +12,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // 取得資料庫連線狀態
 const db = mongoose.connection
@@ -31,6 +33,21 @@ app.get('/', (req, res) => {
     .catch(error => console.error(error)) // 錯誤處理
 })
 
+app.get('/records/new', (req, res) => {
+  return res.render('new')
+})
+
+app.post('/records', (req, res) => {//新增支出
+  const recordData = {
+    name: req.body.name,
+    date: req.body.date,
+    category: req.body.category,
+    amount: req.body.amount,
+  };
+  return Record.create({ ...recordData })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
 app.listen(3000,()=>{
   console.log('App is running on port:3000')
 })
