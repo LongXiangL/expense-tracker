@@ -1,11 +1,18 @@
 <a href="./records/new">Create</a>
 <ul>
   {{#each records}}
-  <li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    
     {{this.categoryId}}
-    {{this.name}}
-    {{this.date}}
-    {{this.amount}} 
+
+<div class="ms-3">
+  <h4 class="record-name fw-bold mb-1">{{ this.name }}</h4>
+  <h5 class="record-name fw-bold mb-1">${{ this.amount }}</h5>
+  <p class="record-date text-muted mb-0">{{ this.date }}</p>
+</div>
+
+    <a href="./records/{{ this._id }}/edit">edit</a>
+
   </li>
   {{/each}}
 </ul>

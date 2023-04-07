@@ -27,10 +27,16 @@ db.once('open', () => {
 
 
 app.get('/', (req, res) => {
-  Record.find() // 取出 model 裡的所有資料
-    .lean() // 把 Mongoose 的 Model 物件轉換成乾淨的 JavaScript 資料陣列
-    .then(records => res.render('index', { records })) // 將資料傳給 index 樣板
-    .catch(error => console.error(error)) // 錯誤處理
+  Record.find() 
+    .lean()
+    .then(records => {
+      records = records.map(record => ({
+        ...record,
+        date: record.date.toISOString().slice(0, 10)
+      }))
+      res.render('index', { records })
+    })
+    .catch(error => console.error(error)) 
 })
 
 app.get('/records/new', (req, res) => {
@@ -48,6 +54,37 @@ app.post('/records', (req, res) => {//新增支出
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
+
+
+app.get('/records/:id/edit', (req, res) => {
+  const id = req.params.id
+  return Record.findById(id)
+    .lean()
+    .then((record) => res.render('edit', { record }))
+    .catch(error => console.log(error))
+})
+
+
+
+app.post('/records/:id/edit', (req, res) => {
+  const id = req.params.id
+  const recordData = {
+    name: req.body.name,
+    date: req.body.date,
+    category: req.body.category,
+    amount: req.body.amount,
+  };
+  return Record.findById(id)
+    .then(record => {
+      record.set(recordData);
+      return record.save()
+    })
+    .then(() => res.redirect(`/`))
+    .catch(error => console.log(error))
+})
+
+
+
 app.listen(3000,()=>{
   console.log('App is running on port:3000')
 })
