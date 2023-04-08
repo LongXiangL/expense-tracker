@@ -1,37 +1,25 @@
-const mongoose = require('mongoose')
-const Category = require('../category') // 載入 Category model
+const db = require('../../config/mongoose')
+const Category = require('../category')
 
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
+const SEED_CATEGORY = {
+  家居物業: 'fa-solid fa-house',
+  交通出行: 'fa-solid fa-van-shuttle',
+  休閒娛樂: 'fa-solid fa-face-grin-beam',
+  餐飲食品: 'fa-solid fa-utensils',
+  其他: 'fa-solid fa-pen',
 }
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
-
-db.on('error', () => {
-  console.log('mongodb error!')
-})
 db.once('open', async () => {
-  console.log('mongodb connected!')
   try {
-    await Category.deleteMany() // 清空資料表
-    console.log('Category collection dropped')
-
-    // 在這裡新增你要填充的資料
-    const categories = [
-      { id: 1, name: '家居物業' },
-      { id: 2, name: '交通出行' },
-      { id: 3, name: '休閒娛樂' },
-      { id: 4, name: '餐飲食品' },
-      { id: 5, name: '其他' },
-    ]
-
-    await Category.insertMany(categories)
-    console.log('Category data inserted')
+    for (const [name, icon] of Object.entries(SEED_CATEGORY)) {
+      await Category.create({
+        name,
+        icon,
+      })
+    }
+    console.log('Category done.')
+    process.exit()
   } catch (err) {
     console.error(err)
   }
-
-  db.close()
-  console.log('categorySeeder done')
 })

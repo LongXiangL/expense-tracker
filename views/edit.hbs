@@ -12,18 +12,15 @@
         <input type="date" class="form-control" id="date" name="date" required value="{{record.date}}" />
       </div>
       <div class="mb-3">
-        <label for="category" class="form-label">類別<span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="category" list="categoryOptions" name="category" required
-          value="{{record.category}}" />
-        {{! 使用datalist，讓使用者可選擇或自行輸入 }}
-        <datalist id="categoryOptions">
-          <option>家居物業</option>
-          <option>交通出行</option>
-          <option>休閒娛樂</option>
-          <option>餐飲食品</option>
-          <option>其他</option>
-        </datalist>
-      </div>
+        <label for="categoryId" class="form-label">類別<span class="text-danger">*</span>:</label>
+        <select class="form-control" id="categoryId" name="categoryId" required>
+          <option value="1">家居物業</option>
+          <option value="2">交通出行</option>
+          <option value="3">休閒娛樂</option>
+          <option value="4">餐飲食品</option>
+          <option value="5">其他</option>
+        </select>
+        <div class="mb-3">
       <div class="mb-3">
         <label for="amount" class="form-label">金額<span class="text-danger">*</span>:</label>
         <input type="number" class="form-control" id="amount" name="amount" required value="{{record.amount}}" />
