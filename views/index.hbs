@@ -1,19 +1,19 @@
 <ul class="list-group">
   {{#each records}}
-  <li class="list-group-item">
-    <div class="row  justify-content-end">
-      <div class="col-auto me-auto">
+<li class="list-group-item">
+  <div class="row align-items-center">
+    <div class="col-auto me-auto">
         {{this.categoryId}}
-        <div class="ms-3">
           <h4 style="display: inline; vertical-align: middle;">{{ this.name }}</h4>
-          <h5 style="display: inline; vertical-align: middle;">${{ this.amount }}</h5>
+          <p>
+          <h6 style="display: inline; vertical-align: middle;">${{ this.amount }}</h6>
+          </p>
           <p class="record-date text-muted mb-0">{{ this.date }}</p>
-        </div>
       </div>
-      <div class="col-auto">
+      <div class="col-auto ">
         <a class="btn btn-success" href="./records/{{ this._id }}/edit">edit</a>
         <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
-          <button class="btn btn-danger" type="submit">delete</button>
+          <button class="btn btn-danger"  type="submit">delete</button>
         </form>
       </div>
     </div>
