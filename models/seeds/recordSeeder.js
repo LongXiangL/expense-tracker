@@ -1,13 +1,7 @@
-const mongoose = require('mongoose')
 const Record = require('../record') // 載入 Record model
 const User = require('../user')
 const Category = require('../category')
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
-
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
+const db = require('../../config/mongoose')
 
 const SEED_USERS = [
   {
