@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Record = require('../../models/record')
-
+const Category=require('../../models/category')
 
 router.get('/new', async (req, res) => {
   return res.render('new')
@@ -9,10 +9,10 @@ router.get('/new', async (req, res) => {
 
 router.post('/', (req, res) => {//新增支出
   const recordData = {
+    categoryId :req.categories._id,
     userId: req.user._id,
     name: req.body.name,
     date: req.body.date,
-    categoryId: req.body.categoryId,
     amount: req.body.amount,
   };
   return Record.create({ ...recordData })
@@ -36,7 +36,7 @@ router.put('/:id', (req, res) => {
     userId: req.user._id,
     name: req.body.name,
     date: req.body.date,
-    categoryId: req.body.categoryId,
+    categoryId: req.categories._id,
     amount: req.body.amount,
   };
   return Record.findOne({_id})
