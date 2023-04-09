@@ -1,15 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const Record = require('../../models/record')
-const Category=require('../../models/category')
+const Category = require('../../models/category')
 
 router.get('/new', async (req, res) => {
-  return res.render('new')
+  const categories = await Category.find().lean()
+  res.render('new', { categories })
 })
 
 router.post('/', (req, res) => {//新增支出
   const recordData = {
-    categoryId :req.categories._id,
+    categoryId: req.body.categoryId,
     userId: req.user._id,
     name: req.body.name,
     date: req.body.date,
@@ -17,6 +18,7 @@ router.post('/', (req, res) => {//新增支出
   };
   return Record.create({ ...recordData })
     .then(() => res.redirect('/'))
+    .then(() => req.flash('success_msg', '成功新增支出！'))
     .catch(error => console.log(error))
 })
 
@@ -39,7 +41,7 @@ router.put('/:id', (req, res) => {
     categoryId: req.categories._id,
     amount: req.body.amount,
   };
-  return Record.findOne({_id})
+  return Record.findOne({ _id })
     .then(record => {
       record.set(recordData);
       return record.save()
@@ -51,7 +53,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const userId = req.user._id
   const _id = req.params.id
-  return Record.findOne({_id, userId})
+  return Record.findOne({ _id, userId })
     .then(record => record.remove())
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
