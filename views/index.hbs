@@ -2,7 +2,6 @@
   <a class="btn btn-outline-dark" href="/records/new">Create</a>
 </div>
 <ul class="list-group">
-  
   {{#each records}}
   <li class="list-group-item">
     <div class="row align-items-center">
@@ -14,8 +13,8 @@
         </p>
         <p class="record-date text-muted mb-0">{{ this.date }}</p>
       </div>
-      <div class="col-auto ">
-        <a class="btn btn-success" href="./records/{{ this._id }}/edit">edit</a>
+      <div class="ml-auto ">
+        <a class="btn btn-success " href="./records/{{ this._id }}/edit">edit</a>
         <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
           <button class="btn btn-danger" type="submit">delete</button>
         </form>
