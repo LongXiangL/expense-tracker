@@ -4,7 +4,6 @@ const Record = require('../../models/record')
 const Category = require('../../models/category')
 
 
-
 router.get('/', async (req, res) => {
   try {
     const userId = req.user._id
@@ -16,14 +15,16 @@ router.get('/', async (req, res) => {
       return {
         ...record,
         date: record.date.toISOString().slice(0, 10),
-        icon: category.icon,
-        name: category.name
+        icon: category.icon
       }
     }))
+
     res.render('index', { records: mappedRecords, categories })
   } catch (error) {
     console.error(error)
   }
 })
+
+
 
 module.exports = router

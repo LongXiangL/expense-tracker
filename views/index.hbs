@@ -16,6 +16,10 @@
         </select>
       </div>
     </form>
+    {{!-- message --}}
+    <div class="success-msg mt-3" style="width: 400px">
+      {{>message}}
+    </div>
   </div>
 </div>
 <ul class="list-group">
@@ -24,6 +28,7 @@
     <div class="row align-items-center">
       <div class="col-auto me-auto">
         <h2 class="record-category-icon"><i class="{{ this.icon }}"></i></h2>
+
         <h4 style="display: inline; vertical-align: middle;">{{ this.name }}</h4>
         <p>
         <h6 style="display: inline; vertical-align: middle;">${{ this.amount }}</h6>
