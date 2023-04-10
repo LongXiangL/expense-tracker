@@ -1,19 +1,17 @@
 <div class="row align-items-center ">
-  <div class="col-auto me-auto">
+  <div class="col-auto me-auto mb-3">
     <a class="btn btn-outline-dark" href="/records/new">Create</a>
   </div>
   <div class="ml-auto">
     <form action="/">
       <div>
-        <select class="form-select" aria-label="Default select example" name="categoryId" onchange="this.form.submit()">
-          <option selected value="all">所有類別</option>
-          {{#each categories}}
-          {{#if ../categoryId}}
-          <option value="{{this._id}}" {{#compare this._id ../categoryId}}selected{{/compare}}>{{this.name}}</option>
-          {{else}}
-          <option value="{{this._id}}">{{this.name}}</option>
+        <select class="form-select col" id="filter" name="filter" onchange="this.form.submit()">
+          {{#if categoryName}}
+          <option value="{{categoryId}}" hidden="hidden" selected="selected">{{categoryName}}</option>
           {{/if}}
-
+          <option value="all">全部</option>
+          {{#each categories}}
+          <option value="{{ this._id }}">{{ this.name }}</option>
           {{/each}}
         </select>
       </div>
@@ -25,6 +23,7 @@
   <li class="list-group-item">
     <div class="row align-items-center">
       <div class="col-auto me-auto">
+        <h2 class="record-category-icon"><i class="{{ this.icon }}"></i></h2>
         <h4 style="display: inline; vertical-align: middle;">{{ this.name }}</h4>
         <p>
         <h6 style="display: inline; vertical-align: middle;">${{ this.amount }}</h6>

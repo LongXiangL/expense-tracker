@@ -1,70 +1,43 @@
-const Record = require('../record') // 載入 Record model
-const User = require('../user')
+const bcrypt = require('bcryptjs')
 const Category = require('../category')
+const Record = require('../record')
+const User = require('../user')
 const db = require('../../config/mongoose')
 
-const SEED_USERS = [
-  {
-    id: 1,
-    name: '廣志',
-    email: 'qwe@example.com',
-    password: 'qwe',
-  },
-  {
-    id: 2,
-    name: '小新',
-    email: 'qwe@example.com',
-    password: 'qwe',
-  },
-];
+const recordsData = require('../../records').results
 
-const SEED_RECORDS = [{
-  id: 1,
-  name: '午餐',
-  date: '2019.4.23',
-  amount: 120,
-  userId:1,
-  categoryId:4,
-},
-{
-  id: 2,
-  name: '電影：驚奇隊長',
-  date: '2019.4.23',
-  amount: 220,
-  userId:2,
-  categoryId:3,
-},
-]
+const SEED_USER = {
+  name: 'root',
+  email: 'root@example.com',
+  password: '12345678'
+}
 
-db.on('error', () => {
-  console.log('mongodb error!')
-})
-db.once('open', async() => {
+db.once('open', async () => {
   try {
-    // 建立索引
-    await Promise.all([
-      User.createIndexes(),
-      Record.createIndexes(),
-    ])
-    await User.create(SEED_USERS)
-    console.log('User data inserted')
-
-    // 新增 Record 資料
-    for (const record of SEED_RECORDS) {
-      const user = await User.findOne({ id: record.userId })
-      const category = await Category.findOne({ id: record.categoryId })
-
-      await Record.create({
-        ...record,
-        userId: user._id,
-        categoryId: category._id,
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(SEED_USER.password, salt)
+    const user = await User.create({
+      name: SEED_USER.name,
+      email: SEED_USER.email,
+      password: hash
+    })
+    const categoryList = await Category.find().lean()
+    await Promise.all(
+      recordsData.map(async (record) => {
+        const { name, date, amount, category } = record
+        const categoriesData = categoryList.find((data) => data.name === category)
+        await Record.create({
+          name,
+          date,
+          amount,
+          userId: user._id,
+          categoryId: categoriesData._id
+        })
       })
-    }
-    console.log('Record data inserted')
+    )
+    console.log('User and Records done.')
+    process.exit()
   } catch (err) {
     console.error(err)
   }
-
-  db.close()
-  console.log('Seeder done')
 })
