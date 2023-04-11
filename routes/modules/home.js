@@ -18,8 +18,10 @@ router.get('/', async (req, res) => {
         icon: category.icon
       }
     }))
-
-    res.render('index', { records: mappedRecords, categories })
+    const totalAmount = mappedRecords.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.amount
+    }, 0).toFixed(2)
+    res.render('index', { records: mappedRecords, totalAmount, categories })
   } catch (error) {
     console.error(error)
   }
