@@ -1,6 +1,6 @@
 # 我的餐廳清單
 
-![Index page about Restaurant List](./public/)
+![Index page about Restaurant List](./public/截圖%202023-04-26%20下午5.56.25.png)
 
 ## 介紹
 
